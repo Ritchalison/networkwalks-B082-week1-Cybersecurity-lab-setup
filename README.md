@@ -2,7 +2,7 @@
 
 Phase 1 completed as part of the **NETWORKWALKS August Internship Programme (B082).**
 
-## Objective
+## Project Objective
 
 Set up the first virtual machine for a cybersecurity home lab using Oracle VirtualBox and Kali Linux.
 
@@ -15,6 +15,23 @@ Phase 1 covered:
 - Configuring static IPv4 settings
 - Verifying network and internet connectivity
 - Creating a VirtualBox snapshot as a stable recovery point
+
+## Project Purpose
+
+The purpose of this project is to build a controlled virtual environment for practical cybersecurity learning and authorised security testing.
+
+The lab provides a foundation for safely carrying out activities such as:
+
+- Network reconnaissance and scanning
+- Vulnerability assessment
+- Packet analysis
+- Security-tool experimentation
+- Penetration-testing exercises
+- Malware analysis in a more isolated lab environment
+
+By creating a dedicated virtual network, the lab systems can be separated from the host's physical network while still allowing controlled communication between virtual machines and external network access where required.
+
+This provides a safer and more manageable environment for future cybersecurity exercises as additional systems are added to the lab.
 
 ---
 
@@ -105,17 +122,117 @@ The snapshot provides a stable recovery point before making further changes to t
 
 ---
 
-## Phase 1 Result
+## Problem Encountered and Resolution
 
-Phase 1 of the Cybersecurity Home Lab Setup was completed successfully.
+### Static IPv4 Configuration Caused the Network Connection to Fail
 
-At the end of this phase, the Kali Linux VM is:
+While configuring the Kali VM, I encountered a network issue after changing the IPv4 configuration from the default automatic DHCP settings to the required static configuration.
 
-- Imported and operational
-- Connected to the custom NAT network
-- Configured with a static IPv4 address
-- Able to access external network resources
-- Backed up with a VirtualBox snapshot
+The Kali VM was configured with:
+
+```text
+IP Address:      10.0.0.2/24
+Default Gateway: 10.0.0.1
+DNS Server:      8.8.8.8
+```
+
+After applying the new settings, I restarted the `eth0` network interface using:
+
+```bash
+sudo ifconfig eth0 down
+sudo ifconfig eth0 up
+```
+
+However, after the interface went down, the network connection did not recover. Kali continued attempting to reconnect and eventually reported that the network connection had been disconnected.
+
+![Static IP Connection Failure](screenshots/07-static-ip-connection-failure.png)
+
+![Network Disconnected](screenshots/08-network-disconnected.png)
+
+### Troubleshooting
+
+I first tried a basic troubleshooting step by shutting down and restarting the Kali VM, but the problem remained.
+
+I then changed the IPv4 configuration back to its default automatic DHCP setting. The network connection was restored successfully.
+
+To further isolate the problem, I reapplied the required static IPv4 configuration. The connection failed again.
+
+This showed that the issue was specifically occurring when the custom static IPv4 configuration was being activated, rather than being a general failure of the Kali VM, its virtual network adapter, or the VirtualBox NAT network.
+
+At this point, I contacted the instructor and explained the behaviour I was experiencing.
+
+### Resolution
+
+I was directed to apply the following NetworkManager command:
+
+```bash
+sudo nmcli connection modify "Wired connection 1" ipv4.dad-timeout 0
+```
+
+After applying the command and restarting the network connection, the Kali VM successfully connected using the custom static IPv4 configuration.
+
+I then verified the network interface and confirmed that the configured IP address `10.0.0.2` had been applied successfully.
+
+![Static IP Resolution Verification](screenshots/09-static-ip-resolution-verification.png)
+
+### What I Took From the Issue
+
+The issue gave me practical experience in isolating a network configuration problem rather than assuming that the entire virtual network had failed.
+
+Reverting to DHCP restored connectivity, while reapplying the static configuration reproduced the problem. This helped narrow the issue down to the activation of the custom IPv4 configuration before I escalated it for guidance.
+
+It also reinforced the importance of verifying network changes after applying them and documenting both the problem and its resolution.
+
+---
+
+## What I Learned
+
+I had already worked with virtual machines and Kali Linux before this project. My personal setup used VMware Workstation with Kali Linux 2026.1, and I was already familiar with basic Linux commands such as `pwd`, `ls`, `cd`, `cat`, and `man`.
+
+What was new to me in this project was how those familiar technologies could be configured and documented more deliberately for a cybersecurity lab.
+
+### 1. Using GitHub as a Cybersecurity Project Portfolio
+
+Before this project, I mainly viewed GitHub as a platform for hosting code.
+
+I had not really considered documenting a practical cybersecurity lab as a GitHub project, with a structured README, screenshots, configuration details, troubleshooting notes, and evidence of completed work.
+
+This project introduced me to using GitHub as a technical portfolio for documenting and presenting practical cybersecurity projects in a clear and reproducible way.
+
+### 2. Creating a Custom Virtual Network
+
+My previous virtual machines mostly used the default VMware network configuration. When I encountered connectivity problems in the past, I would usually switch the VM to bridged networking.
+
+In this project, I learned how to deliberately create and configure a custom NAT network for the lab instead of relying on the default virtual network settings.
+
+The network was created as `NatNetwork` using the `10.0.0.0/24` address range.
+
+This helped me understand the importance of planning the network environment of a cybersecurity lab rather than simply connecting every virtual machine directly to the same network as the host.
+
+Using a dedicated virtual network provides greater separation from the host's physical network and gives better control over how the lab machines communicate. This becomes especially important when the environment is later used for activities such as penetration testing, vulnerability testing, and malware analysis.
+
+### 3. Virtual Machine Snapshots
+
+Snapshots were completely new to me.
+
+Although I had created and used Kali virtual machines before, I had never created a VM snapshot and was not aware of how useful the feature could be.
+
+I learned that a snapshot allows me to preserve a known working state of a virtual machine and return to it if later configuration changes, experiments, or security exercises break the system.
+
+For a cybersecurity lab, this provides a practical recovery point before carrying out potentially disruptive work.
+
+### 4. Manually Restarting a Network Interface
+
+I also learned how to manually bring a network interface down and back up from the terminal using:
+
+```bash
+sudo ifconfig eth0 down
+sudo ifconfig eth0 up
+```
+
+In this project, these commands were used after changing the Kali network configuration so that the interface could restart and apply the updated settings.
+
+The connectivity problem I encountered while doing this also gave me practical experience in troubleshooting a network configuration instead of assuming that the settings had been applied successfully.
 
 ---
 
@@ -127,3 +244,13 @@ The home lab will be expanded with additional virtual systems:
 - Android
 
 These systems will be integrated into the lab environment during the next phase of the project.
+
+---
+
+## Author
+
+**Prince Manu Gyebi**  
+Cybersecurity Intern — Batch B082  
+**NETWORKWALKS**
+
+LinkedIn: [Prince Manu Gyebi](https://www.linkedin.com/in/princemanugyebi)
