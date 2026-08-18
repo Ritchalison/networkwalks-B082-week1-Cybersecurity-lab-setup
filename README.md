@@ -1,6 +1,24 @@
 # Cybersecurity Home Lab Setup — Phase 1
 
-Phase 1 completed as part of the **NETWORKWALKS August Internship Programme (B082).**
+**NETWORKWALKS Cybersecurity Internship — Week 1**
+
+Building and configuring the first virtual machine in a controlled cybersecurity home lab using **Oracle VirtualBox** and **Kali Linux**, including custom virtual networking, static IPv4 configuration, connectivity testing, troubleshooting, and snapshot-based recovery.
+
+## Project Summary
+
+| Item | Details |
+|---|---|
+| Hypervisor | Oracle VirtualBox |
+| Guest OS | Kali Linux 2026.2 |
+| Network Type | Custom NAT Network |
+| Network Name | `NatNetwork` |
+| Subnet | `10.0.0.0/24` |
+| Kali IPv4 Address | `10.0.0.2/24` |
+| Default Gateway | `10.0.0.1` |
+| DNS Server | `8.8.8.8` |
+| Key Task | Static IPv4 configuration |
+| Troubleshooting | Network connection failure after applying static IPv4 settings |
+| Recovery | VirtualBox snapshot |
 
 ## Project Objective
 
@@ -20,7 +38,7 @@ Phase 1 covered:
 
 The purpose of this project is to build a controlled virtual environment for practical cybersecurity learning and authorised security testing.
 
-The lab provides a foundation for safely carrying out activities such as:
+The lab provides a foundation for activities such as:
 
 - Network reconnaissance and scanning
 - Vulnerability assessment
@@ -246,6 +264,23 @@ The home lab will be expanded with additional virtual systems:
 These systems will be integrated into the lab environment during the next phase of the project.
 
 ---
+
+## Repository Structure
+
+```text
+.
+├── screenshots/
+│   ├── 01-kali-imported-virtualbox.png
+│   ├── 02-custom-nat-network.png
+│   ├── 03-kali-network-adapter.png
+│   ├── 04-kali-ip-configuration.png
+│   ├── 05-kali-connectivity-test.png
+│   ├── 06-kali-snapshot.png
+│   ├── 07-static-ip-connection-failure.png
+│   ├── 08-network-disconnected.png
+│   └── 09-static-ip-resolution-verification.png
+└── README.md
+```
 
 ## Author
 
